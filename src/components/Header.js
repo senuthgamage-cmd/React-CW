@@ -1,7 +1,7 @@
 import React from 'react';
 import './Header.css';
 
-const Header = () => {
+const Header = ({ onSearchClick }) => {
   return (
     <header className="header">
       <div className="header-container">
@@ -15,10 +15,10 @@ const Header = () => {
         <nav className="navbar">
           <ul className="nav-menu">
             <li className="nav-item">
-              <a href="#search" className="nav-link active">
+              <button onClick={onSearchClick} className="nav-link active" style={{background: 'none', border: 'none', cursor: 'pointer'}}>
                 <span className="nav-icon">🔍</span>
                 Search Properties
-              </a>
+              </button>
             </li>
             <li className="nav-item">
               <a href="#favourites" className="nav-link">
