@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/REPO/static/css/main.ed03af0b.css",
-    "main.js": "/REPO/static/js/main.f0605519.js",
-    "index.html": "/REPO/index.html",
-    "main.ed03af0b.css.map": "/REPO/static/css/main.ed03af0b.css.map",
-    "main.f0605519.js.map": "/REPO/static/js/main.f0605519.js.map"
+    "main.css": "/React-CW/static/css/main.ed03af0b.css",
+    "main.js": "/React-CW/static/js/main.b72e2af3.js",
+    "index.html": "/React-CW/index.html",
+    "main.ed03af0b.css.map": "/React-CW/static/css/main.ed03af0b.css.map",
+    "main.b72e2af3.js.map": "/React-CW/static/js/main.b72e2af3.js.map"
   },
   "entrypoints": [
     "static/css/main.ed03af0b.css",
-    "static/js/main.f0605519.js"
+    "static/js/main.b72e2af3.js"
   ]
 }
