@@ -5,11 +5,46 @@ import PropertyCard from "./components/PropertyCard.jsx";
 import PropertyDetailPage from "./pages/PropertyDetailPage.jsx";
 import Header from "./components/Header";
 import SearchForm from "./components/SearchForm";
+import FavoritesSidebar from "./components/FavoritesSidebar";
 import "./App.css";
 
 const App = () => {
   const [filteredProperties, setFilteredProperties] = useState(data.properties);
   const [showSearch, setShowSearch] = useState(false);
+  const [favorites, setFavorites] = useState([]);
+
+  const addToFavorites = (property) => {
+    // Check if property already exists in favorites
+    if (!favorites.find(fav => fav.id === property.id)) {
+      setFavorites([...favorites, property]);
+    }
+  };
+
+  const removeFromFavorites = (propertyId) => {
+    setFavorites(favorites.filter(fav => fav.id !== propertyId));
+  };
+
+  const toggleFavorite = (property) => {
+    if (favorites.find(fav => fav.id === property.id)) {
+      removeFromFavorites(property.id);
+    } else {
+      addToFavorites(property);
+    }
+  };
+
+  const isFavorite = (propertyId) => {
+    return favorites.some(fav => fav.id === propertyId);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const propertyId = e.dataTransfer.getData('propertyId');
+    const property = data.properties.find(p => p.id === propertyId);
+    if (property) {
+      addToFavorites(property);
+    }
+  };
 
   const handleSearch = (criteria) => {
     let results = data.properties;
@@ -63,6 +98,8 @@ const App = () => {
             <PropertyCard
               key={property.id}
               property={property}
+              onToggleFavorite={toggleFavorite}
+              isFavorite={isFavorite(property.id)}
             />
           ))
         ) : (
@@ -73,10 +110,25 @@ const App = () => {
   );
 
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/property/:id" element={<PropertyDetailPage />} />
-    </Routes>
+    <>
+      <FavoritesSidebar 
+        favorites={favorites}
+        onRemoveFavorite={removeFromFavorites}
+        onDrop={handleDrop}
+      />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route 
+          path="/property/:id" 
+          element={
+            <PropertyDetailPage 
+              onToggleFavorite={toggleFavorite}
+              isFavorite={isFavorite}
+            />
+          } 
+        />
+      </Routes>
+    </>
   );
 };
 

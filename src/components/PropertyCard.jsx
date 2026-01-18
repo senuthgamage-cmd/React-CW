@@ -2,12 +2,35 @@ import React from "react";
 import { Link } from 'react-router-dom';
 import './PropertyCard.css';
 
-const PropertyCard = ({ property }) => {
+const PropertyCard = ({ property, onToggleFavorite, isFavorite }) => {
     const imageUrl = property.image || property.pictures?.[0] || "https://via.placeholder.com/300x200";
     
+    const handleDragStart = (e) => {
+        e.dataTransfer.setData('propertyId', property.id);
+        e.dataTransfer.effectAllowed = 'copy';
+    };
+
+    const handleFavoriteClick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        onToggleFavorite(property);
+    };
+    
     return (
-        <Link to={`/property/${property.id}`} style={{ textDecoration: 'none' }}>
-            <div className='property-card'>
+        <div 
+            className='property-card'
+            draggable="true"
+            onDragStart={handleDragStart}
+        >
+            <button 
+                className={`btn-favorite-icon ${isFavorite ? 'is-favorite' : ''}`}
+                onClick={handleFavoriteClick}
+                title={isFavorite ? "Remove from favourites" : "Add to favourites"}
+            >
+                {isFavorite ? '❤️' : '🤍'}
+            </button>
+
+            <Link to={`/property/${property.id}`} style={{ textDecoration: 'none' }}>
                 <img src={imageUrl} alt={property.type} />
 
                 <div className="card-content">
@@ -20,8 +43,8 @@ const PropertyCard = ({ property }) => {
                     </div>
                     <button className="btn-view-details">View Details</button>
                 </div>
-            </div>
-        </Link>
+            </Link>
+        </div>
     );
 };
 

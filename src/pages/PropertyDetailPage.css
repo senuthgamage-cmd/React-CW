@@ -1,6 +1,7 @@
 .detail-page-container {
     max-width: 900px;
     margin: 20px auto;
+    margin-right: 360px;
     padding: 20px;
 }
 
@@ -194,9 +195,21 @@
     border-color: #ff6b6b;
 }
 
+.btn-favourite.is-favorite {
+    background: #e74c3c;
+    color: white;
+    border-color: #e74c3c;
+}
+
+.btn-favourite.is-favorite:hover {
+    background: #c0392b;
+    border-color: #c0392b;
+}
+
 @media (max-width: 768px) {
     .detail-page-container {
         padding: 10px;
+        margin-right: 0;
     }
 
     .detail-content {
@@ -218,5 +231,11 @@
 
     .detail-content h1 {
         font-size: 24px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .detail-page-container {
+        margin-right: 300px;
     }
 }

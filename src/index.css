@@ -3,6 +3,10 @@ body {
   font-family: Arial, sans-serif;
 }
 
+.home {
+  margin-right: 340px;
+}
+
 .property-list {
   display: flex;
   flex-wrap: wrap;
@@ -20,4 +24,21 @@ body {
 .property-card img {
   width: 100%;
   border-radius: 4px;
+}
+
+@media (max-width: 1024px) {
+  .home {
+    margin-right: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .home {
+    margin-right: 0;
+  }
+
+  .property-list {
+    padding: 10px;
+    gap: 15px;
+  }
 }

@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import data from '../properties.json';
 import './PropertyDetailPage.css';
 
-const PropertyDetailPage = () => {
+const PropertyDetailPage = ({ onToggleFavorite, isFavorite }) => {
     const { id } = useParams();
     const navigate = useNavigate();
     const property = data.properties.find(p => p.id === id);
@@ -18,6 +18,11 @@ const PropertyDetailPage = () => {
     }
 
     const imageUrl = property.pictures?.[0] || "https://via.placeholder.com/500x300";
+    const isPropertyFavorite = isFavorite(property.id);
+
+    const handleFavoriteClick = () => {
+        onToggleFavorite(property);
+    };
 
     return (
         <div className="detail-page-container">
@@ -68,7 +73,12 @@ const PropertyDetailPage = () => {
 
                     <div className="detail-actions">
                         <button className="btn-enquire">Enquire Now</button>
-                        <button className="btn-favourite">❤️ Add to Favourites</button>
+                        <button 
+                            className={`btn-favourite ${isPropertyFavorite ? 'is-favorite' : ''}`}
+                            onClick={handleFavoriteClick}
+                        >
+                            {isPropertyFavorite ? '❤️ Remove from Favourites' : '🤍 Add to Favourites'}
+                        </button>
                     </div>
                 </div>
             </div>
