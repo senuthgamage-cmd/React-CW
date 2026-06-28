@@ -111,11 +111,16 @@
     color: #333;
 }
 
-.detail-description {
+.detail-description,
+.detail-floor-plan,
+.detail-map {
     margin-bottom: 30px;
 }
 
-.detail-description h3 {
+.detail-description h3,
+.detail-floor-plan h3,
+.detail-map h3,
+.detail-gallery h3 {
     font-size: 20px;
     margin-bottom: 12px;
     color: #333;
@@ -127,14 +132,23 @@
     color: #555;
 }
 
-.detail-gallery {
-    margin-bottom: 30px;
+.floor-plan-placeholder {
+    padding: 20px;
+    border: 1px dashed #ccc;
+    border-radius: 8px;
+    background: #fafafa;
+    color: #555;
 }
 
-.detail-gallery h3 {
-    font-size: 20px;
-    margin-bottom: 15px;
-    color: #333;
+.map-embed {
+    width: 100%;
+    min-height: 280px;
+    border: 0;
+    border-radius: 8px;
+}
+
+.detail-gallery {
+    margin-bottom: 30px;
 }
 
 .gallery-images {

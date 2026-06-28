@@ -4,7 +4,7 @@ import './PropertyCard.css';
 
 const PropertyCard = ({ property, onToggleFavorite, isFavorite }) => {
     const imageUrl = property.image || property.pictures?.[0] || "https://via.placeholder.com/300x200";
-    
+
     const handleDragStart = (e) => {
         e.dataTransfer.setData('propertyId', property.id);
         e.dataTransfer.effectAllowed = 'copy';
@@ -15,17 +15,19 @@ const PropertyCard = ({ property, onToggleFavorite, isFavorite }) => {
         e.stopPropagation();
         onToggleFavorite(property);
     };
-    
+
     return (
-        <div 
+        <div
             className='property-card'
             draggable="true"
             onDragStart={handleDragStart}
+            data-testid="property-card"
         >
-            <button 
+            <button
                 className={`btn-favorite-icon ${isFavorite ? 'is-favorite' : ''}`}
                 onClick={handleFavoriteClick}
                 title={isFavorite ? "Remove from favourites" : "Add to favourites"}
+                aria-label={isFavorite ? 'Remove from favourites' : 'Add to favourites'}
             >
                 {isFavorite ? '❤️' : '🤍'}
             </button>

@@ -8,7 +8,7 @@
 
 .search-row {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 15px;
     margin-bottom: 15px;
 }
@@ -16,28 +16,41 @@
 .search-field {
     display: flex;
     flex-direction: column;
+    gap: 6px;
 }
 
 .search-field label {
     font-size: 14px;
     font-weight: 600;
-    margin-bottom: 5px;
     color: #333;
 }
 
 .search-field input,
-.search-field select {
+.search-field .react-select-container,
+.search-field .react-datepicker-wrapper {
+    width: 100%;
+}
+
+.search-field input,
+.search-field .react-select__control {
     padding: 8px 12px;
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 14px;
     transition: border-color 0.3s;
+    background: white;
 }
 
 .search-field input:focus,
-.search-field select:focus {
+.search-field .react-select__control--is-focused {
     outline: none;
     border-color: #007bff;
+    box-shadow: 0 0 0 1px #007bff;
+}
+
+.slider-value {
+    font-size: 13px;
+    color: #555;
 }
 
 .search-buttons {
@@ -78,11 +91,11 @@
     .search-row {
         grid-template-columns: 1fr;
     }
-    
+
     .search-buttons {
         flex-direction: column;
     }
-    
+
     .search-buttons button {
         width: 100%;
     }

@@ -14,33 +14,30 @@ const App = () => {
   const [favorites, setFavorites] = useState([]);
 
   const addToFavorites = (property) => {
-    // Check if property already exists in favorites
-    if (!favorites.find(fav => fav.id === property.id)) {
+    if (!favorites.find((fav) => fav.id === property.id)) {
       setFavorites([...favorites, property]);
     }
   };
 
   const removeFromFavorites = (propertyId) => {
-    setFavorites(favorites.filter(fav => fav.id !== propertyId));
+    setFavorites(favorites.filter((fav) => fav.id !== propertyId));
   };
 
   const toggleFavorite = (property) => {
-    if (favorites.find(fav => fav.id === property.id)) {
+    if (favorites.find((fav) => fav.id === property.id)) {
       removeFromFavorites(property.id);
     } else {
       addToFavorites(property);
     }
   };
 
-  const isFavorite = (propertyId) => {
-    return favorites.some(fav => fav.id === propertyId);
-  };
+  const isFavorite = (propertyId) => favorites.some((fav) => fav.id === propertyId);
 
   const handleDrop = (e) => {
     e.preventDefault();
     e.stopPropagation();
     const propertyId = e.dataTransfer.getData('propertyId');
-    const property = data.properties.find(p => p.id === propertyId);
+    const property = data.properties.find((p) => p.id === propertyId);
     if (property) {
       addToFavorites(property);
     }
@@ -49,32 +46,36 @@ const App = () => {
   const handleSearch = (criteria) => {
     let results = data.properties;
 
-    // Filter by type
     if (criteria.type && criteria.type !== 'any') {
-      results = results.filter(prop => prop.type === criteria.type);
+      results = results.filter((prop) => prop.type === criteria.type);
     }
 
-    // Filter by price range
     if (criteria.minPrice) {
-      results = results.filter(prop => prop.price >= Number(criteria.minPrice));
+      results = results.filter((prop) => prop.price >= Number(criteria.minPrice));
     }
     if (criteria.maxPrice) {
-      results = results.filter(prop => prop.price <= Number(criteria.maxPrice));
+      results = results.filter((prop) => prop.price <= Number(criteria.maxPrice));
     }
 
-    // Filter by bedrooms
     if (criteria.minBedrooms) {
-      results = results.filter(prop => prop.bedrooms >= Number(criteria.minBedrooms));
+      results = results.filter((prop) => prop.bedrooms >= Number(criteria.minBedrooms));
     }
     if (criteria.maxBedrooms) {
-      results = results.filter(prop => prop.bedrooms <= Number(criteria.maxBedrooms));
+      results = results.filter((prop) => prop.bedrooms <= Number(criteria.maxBedrooms));
     }
 
-    // Filter by postcode
     if (criteria.postcode) {
-      results = results.filter(prop => 
-        prop.postcode.toLowerCase().includes(criteria.postcode.toLowerCase())
-      );
+      results = results.filter((prop) => prop.postcode.toLowerCase().includes(criteria.postcode.toLowerCase()));
+    }
+
+    if (criteria.dateAddedFrom) {
+      const from = new Date(criteria.dateAddedFrom);
+      results = results.filter((prop) => new Date(prop.added) >= from);
+    }
+
+    if (criteria.dateAddedTo) {
+      const to = new Date(criteria.dateAddedTo);
+      results = results.filter((prop) => new Date(prop.added) <= to);
     }
 
     setFilteredProperties(results);
@@ -87,8 +88,8 @@ const App = () => {
   const HomePage = () => (
     <div className="home">
       <Header onSearchClick={toggleSearch} />
-      
-      {showSearch && <SearchForm onSearch={handleSearch} />}
+
+      {showSearch && <SearchForm onSearch={handleSearch} properties={data.properties} />}
 
       <h1>Property Listings ({filteredProperties.length})</h1>
 
@@ -111,21 +112,21 @@ const App = () => {
 
   return (
     <>
-      <FavoritesSidebar 
+      <FavoritesSidebar
         favorites={favorites}
         onRemoveFavorite={removeFromFavorites}
         onDrop={handleDrop}
       />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route 
-          path="/property/:id" 
+        <Route
+          path="/property/:id"
           element={
-            <PropertyDetailPage 
+            <PropertyDetailPage
               onToggleFavorite={toggleFavorite}
               isFavorite={isFavorite}
             />
-          } 
+          }
         />
       </Routes>
     </>

@@ -16,7 +16,7 @@ const FavoritesSidebar = ({ favorites, onRemoveFavorite, onDragOver, onDrop }) =
     >
       <div className="favorites-header">
         <h2>❤️ Favourites</h2>
-        <span className="favorites-count">{favorites.length}</span>
+        <span className="favorites-count" data-testid="favorites-count">{favorites.length}</span>
       </div>
 
       {favorites.length === 0 ? (

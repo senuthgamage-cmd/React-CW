@@ -1,12 +1,14 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
 import data from '../properties.json';
 import './PropertyDetailPage.css';
 
 const PropertyDetailPage = ({ onToggleFavorite, isFavorite }) => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const property = data.properties.find(p => p.id === id);
+    const property = data.properties.find((p) => p.id === id);
 
     if (!property) {
         return (
@@ -19,6 +21,7 @@ const PropertyDetailPage = ({ onToggleFavorite, isFavorite }) => {
 
     const imageUrl = property.pictures?.[0] || "https://via.placeholder.com/500x300";
     const isPropertyFavorite = isFavorite(property.id);
+    const mapUrl = `https://www.google.com/maps?q=${property.latitude},${property.longitude}&z=14&output=embed`;
 
     const handleFavoriteClick = () => {
         onToggleFavorite(property);
@@ -35,7 +38,7 @@ const PropertyDetailPage = ({ onToggleFavorite, isFavorite }) => {
 
                 <div className="detail-content">
                     <h1>{property.type}</h1>
-                    
+
                     <div className="detail-header-info">
                         <p className="price"><strong>£{property.price.toLocaleString()}</strong></p>
                         <p className="location">{property.location}</p>
@@ -57,10 +60,43 @@ const PropertyDetailPage = ({ onToggleFavorite, isFavorite }) => {
                         </div>
                     </div>
 
-                    <div className="detail-description">
-                        <h3>Description</h3>
-                        <p>{property.description}</p>
-                    </div>
+                    <Tabs>
+                        <TabList>
+                            <Tab>Description</Tab>
+                            <Tab>Floor Plan</Tab>
+                            <Tab>Google Map</Tab>
+                        </TabList>
+
+                        <TabPanel>
+                            <div className="detail-description">
+                                <h3>Description</h3>
+                                <p>{property.description}</p>
+                            </div>
+                        </TabPanel>
+
+                        <TabPanel>
+                            <div className="detail-floor-plan">
+                                <h3>Floor Plan</h3>
+                                <div className="floor-plan-placeholder">
+                                    <p>Floor plan available for this property.</p>
+                                    <strong>{property.floorPlan}</strong>
+                                </div>
+                            </div>
+                        </TabPanel>
+
+                        <TabPanel>
+                            <div className="detail-map">
+                                <h3>Google Map</h3>
+                                <iframe
+                                    title="Property location"
+                                    src={mapUrl}
+                                    className="map-embed"
+                                    loading="lazy"
+                                    referrerPolicy="no-referrer-when-downgrade"
+                                />
+                            </div>
+                        </TabPanel>
+                    </Tabs>
 
                     <div className="detail-gallery">
                         <h3>Gallery</h3>
@@ -73,7 +109,7 @@ const PropertyDetailPage = ({ onToggleFavorite, isFavorite }) => {
 
                     <div className="detail-actions">
                         <button className="btn-enquire">Enquire Now</button>
-                        <button 
+                        <button
                             className={`btn-favourite ${isPropertyFavorite ? 'is-favorite' : ''}`}
                             onClick={handleFavoriteClick}
                         >
